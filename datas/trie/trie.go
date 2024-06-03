@@ -2,37 +2,37 @@ package trie
 
 // 字典树
 type Trie struct {
-	root *Node
+	root *node
 }
 
-type Node struct {
+type node struct {
 	exist bool
-	ne    map[byte]*Node
+	ne    map[byte]*node
 }
 
 func NewTrie() Trie {
 	return Trie{
-		root: &Node{
+		root: &node{
 			exist: false,
-			ne:    make(map[byte]*Node, 26),
+			ne:    make(map[byte]*node, 26),
 		},
 	}
 }
 
-func (this *Trie) Insert(word string) {
-	pc := this.root
+func (tr *Trie) Insert(word string) {
+	pc := tr.root
 	for i := range word {
 		if pc.ne[word[i]] == nil {
-			pc.ne[word[i]] = new(Node)
-			pc.ne[word[i]].ne = make(map[byte]*Node)
+			pc.ne[word[i]] = new(node)
+			pc.ne[word[i]].ne = make(map[byte]*node)
 		}
 		pc = pc.ne[word[i]]
 	}
 	pc.exist = true
 }
 
-func (this *Trie) Search(word string) bool {
-	pc := this.root
+func (tr *Trie) Search(word string) bool {
+	pc := tr.root
 	for i := range word {
 		if pc.ne[word[i]] == nil {
 			return false
@@ -49,8 +49,8 @@ func (this *Trie) Search(word string) bool {
 	return true
 }
 
-func (this *Trie) StartsWith(prefix string) bool {
-	pc := this.root
+func (tr *Trie) StartsWith(prefix string) bool {
+	pc := tr.root
 	for i := range prefix {
 		if pc.ne[prefix[i]] == nil {
 			return false
