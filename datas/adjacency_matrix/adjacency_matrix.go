@@ -1,3 +1,3 @@
-package datas
+package ajm
 
 // 临接矩阵

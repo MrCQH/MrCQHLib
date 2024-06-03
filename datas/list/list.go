@@ -1,4 +1,4 @@
-package datas
+package list
 
 //
 //type List[T any] struct {

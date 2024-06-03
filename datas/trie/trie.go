@@ -1,4 +1,4 @@
-package datas
+package trie
 
 // 字典树
 type Trie struct {

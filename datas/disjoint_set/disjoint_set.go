@@ -1,3 +1,3 @@
-package datas
+package djs
 
 // 并查集

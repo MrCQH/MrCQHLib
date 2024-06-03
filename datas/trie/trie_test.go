@@ -1,4 +1,4 @@
-package datas
+package trie
 
 import (
 	"fmt"
