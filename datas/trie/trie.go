@@ -10,7 +10,7 @@ type node struct {
 	ne    map[byte]*node
 }
 
-func NewTrie() Trie {
+func New() Trie {
 	return Trie{
 		root: &node{
 			exist: false,

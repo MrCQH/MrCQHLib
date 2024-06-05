@@ -6,7 +6,7 @@ import (
 )
 
 func TestTrie(t *testing.T) {
-	trie := NewTrie()
+	trie := New()
 	trie.Insert("abc")
 	trie.Insert("acb")
 	if !trie.Search("abc") {
