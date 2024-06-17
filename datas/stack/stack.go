@@ -6,7 +6,7 @@ type Stack[T any] struct {
 	rp    int
 }
 
-func NewStack[T any](cap ...int) *Stack[T] {
+func New[T any](cap ...int) *Stack[T] {
 	var size int
 	if len(cap) > 0 {
 		size = cap[0]
