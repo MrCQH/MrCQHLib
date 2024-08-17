@@ -1,6 +1,9 @@
 package ajl
 
-import "MrCQHLib/datas/queue"
+import (
+	"MrCQHLib/datas/queue"
+	"fmt"
+)
 
 // TODO 实现无向图
 // 邻接表
@@ -49,7 +52,6 @@ func (o *AJL[W]) Add(u, v int, w W) {
 			return
 		}
 		vnd.ne = o.h[u]
-		o.h[u].d++
 		// 头插
 		o.h[u] = vnd
 		vnd.d++
@@ -57,8 +59,8 @@ func (o *AJL[W]) Add(u, v int, w W) {
 }
 
 // 将u->v单向边删除
-// 返回 true/false, u, v
-// 若为false 两个点返回-1, -1
+// 返回 true/false
+// 若为false
 func (o *AJL[w]) Remove(u, v int) bool {
 	if _, ok := o.h[u]; !ok {
 		return false
@@ -104,21 +106,24 @@ func (o *AJL[W]) haveRing() bool {
 				return true
 			}
 		}
+		break
 	}
 	return false
 }
 
 // 只能遍历一次
-func (o *AJL[W]) TopSort() (topList []int) {
+func (o *AJL[W]) TopSort() (topList []int, ok bool) {
 	if o.haveRing() {
-		return nil
+		return nil, false
 	}
 	topList = make([]int, 0)
 	q := queue.New[*node[W]]()
 	for _, hnd := range o.h2n {
-		if hnd.d == 0 {
+		_, ok := o.r[hnd.id]
+		if hnd.d == 0 && !ok {
 			q.Push(hnd)
 			topList = append(topList, hnd.id)
+			o.r[hnd.id] = struct{}{}
 		}
 	}
 
@@ -126,21 +131,18 @@ func (o *AJL[W]) TopSort() (topList []int) {
 		t := q.Pop()
 		for e := o.h[t.id]; e != nil; e = e.ne {
 			e.d--
-			if e.d == 0 {
+			_, ok := o.r[e.id]
+			if e.d == 0 && !ok {
 				q.Push(e)
 				topList = append(topList, e.id)
+				o.r[e.id] = struct{}{}
 			}
 		}
-		//if t.d == 0 && t.ne != nil {
-		//	if !f(t.id, t.ne.id, t.ne.w) {
-		//		return
-		//	}
-		//	t.ne.d--
-		//	q.Push(t.ne)
-		//}
 	}
 	o.cacheTopSort = make([]int, len(topList))
 	copy(o.cacheTopSort, topList)
+	ok = true
+	o.resetR()
 	return
 }
 
@@ -201,4 +203,12 @@ func (o *AJL[W]) resetR() {
 	for id := range o.r {
 		delete(o.r, id)
 	}
+}
+
+func (o *AJL[W]) String() string {
+	nds := make([]int, 0, len(o.h2n))
+	for _, hnd := range o.h2n {
+		nds = append(nds, hnd.id)
+	}
+	return fmt.Sprintf("cur all node are: %v", nds)
 }

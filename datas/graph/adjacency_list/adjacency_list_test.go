@@ -8,14 +8,14 @@ import (
 func TestAJL(t *testing.T) {
 	ajl := New[int]()
 	//       /--------_\
-	//  1 -> 2 -> 3 <-> 4
+	//  1 -> 2 -> 3 -> 4
 	//   \______-/
 	ajl.Add(1, 2, 1)
 	ajl.Add(1, 2, 1)
 	ajl.Add(2, 3, 1)
 	ajl.Add(1, 3, 1)
 	ajl.Add(3, 4, 1)
-	ajl.Add(4, 3, 1)
+	//ajl.Add(4, 3, 1)
 	ajl.Add(2, 4, 1)
 	fmt.Println(ajl)
 	fmt.Println("----------")
@@ -33,10 +33,13 @@ func TestAJL(t *testing.T) {
 	})
 
 	fmt.Println("----------")
+	fmt.Println(ajl)
 	fmt.Println("TopSort")
-	topList := ajl.TopSort()
-	fmt.Println(topList)
-	fmt.Println(ajl.cacheTopSort)
+	topList, ok := ajl.TopSort()
+	if ok {
+		fmt.Println(topList)
+		fmt.Println(ajl.cacheTopSort)
+	}
 
 	//       /---------\
 	//  1   2 -> 3 <-> 4
