@@ -14,7 +14,7 @@ func New() Trie {
 	return Trie{
 		root: &node{
 			exist: false,
-			ne:    make(map[byte]*node, 26),
+			ne:    make(map[byte]*node, 26), // 小写英文字母
 		},
 	}
 }

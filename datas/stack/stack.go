@@ -10,6 +10,8 @@ func New[T any](cap ...int) *Stack[T] {
 	var size int
 	if len(cap) > 0 {
 		size = cap[0]
+	} else {
+		panic("cap cant less than zero")
 	}
 	return &Stack[T]{
 		elems: make([]T, size),
